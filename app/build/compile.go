@@ -36,6 +36,7 @@ func Compile(content *models.Content) bool {
 			failCount++
 			continue
 		}
+		content.DstFiles[task.ToFile] = true
 		mylog.Trace("compile file %s from %s", task.ToFile, task.FromFile)
 	}
 	mylog.Info("compile files %s, fails %s", len(tasks)-failCount, failCount)

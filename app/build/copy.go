@@ -7,6 +7,7 @@ import "os"
 import "github.com/fuxiaohei/pugo-static/app/utils/mylog"
 import "io"
 
+// Copy copy static files
 func Copy(content *models.Content) bool {
 	var (
 		copyCount int
@@ -21,6 +22,7 @@ func Copy(content *models.Content) bool {
 		if toFileInfo != nil && toFileInfo.ModTime().Unix() == info.ModTime().Unix() {
 			mylog.Trace("copy file %s but exist", fpath)
 			keepCount++
+			content.DstFiles[toFile] = true
 			return nil
 		}
 		if err = copyFile(fpath, toFile); err != nil {
@@ -28,6 +30,7 @@ func Copy(content *models.Content) bool {
 			return nil
 		}
 		copyCount++
+		content.DstFiles[toFile] = true
 		mylog.Trace("copy file %s from %s", toFile, fpath)
 		return nil
 	})
@@ -45,6 +48,7 @@ func Copy(content *models.Content) bool {
 		if toFileInfo != nil && toFileInfo.ModTime().Unix() == info.ModTime().Unix() {
 			mylog.Trace("copy file %s but exist", fpath)
 			keepCount++
+			content.DstFiles[toFile] = true
 			return nil
 		}
 		if err = copyFile(fpath, toFile); err != nil {
@@ -52,6 +56,7 @@ func Copy(content *models.Content) bool {
 			return nil
 		}
 		copyCount++
+		content.DstFiles[toFile] = true
 		mylog.Trace("copy file %s from %s", toFile, fpath)
 		return nil
 	})

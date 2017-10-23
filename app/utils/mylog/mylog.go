@@ -6,7 +6,8 @@ import (
 	"github.com/fatih/color"
 )
 
-var EnableTrace = true
+// EnableTrace disable printing trace
+var EnableTrace = false
 
 func Trace(format string, values ...interface{}) {
 	if !EnableTrace {

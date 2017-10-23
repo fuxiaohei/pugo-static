@@ -13,4 +13,12 @@ type Content struct {
 	PostTagLists map[string][]*PostList
 	Pages        []*Page
 	Theme        *theme.Theme
+	DstFiles     map[string]bool
+}
+
+// NewContent return new content object with proper default values
+func NewContent() *Content {
+	return &Content{
+		DstFiles: make(map[string]bool),
+	}
 }
