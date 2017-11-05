@@ -72,12 +72,17 @@ func readPosts(cnt *models.Content) error {
 	}
 	cnt.Posts = posts
 	mylog.Info("read posts %s", len(posts))
-	cnt.Lists = models.NewPostLists(posts, vars.Config.PostSizePerPage)
+	cnt.Lists = models.NewPostLists(posts, vars.Config.PostSizePerPage, "")
 	mylog.Info("build post lists %s", len(cnt.Lists))
 	cnt.Tags, cnt.PostTagLists = models.NewPostTags(posts, vars.Config.PostSizePerPage)
 	mylog.Info("build post tags %s", len(cnt.Tags))
 	for t, list := range cnt.PostTagLists {
 		mylog.Trace("build tag %s post list %s, posts %s", t, len(list), models.SizeOfPostLists(list))
+	}
+	cnt.Archives = models.NewArchives(posts)
+	mylog.Info("build archives %s", len(cnt.Archives))
+	for _, a := range cnt.Archives {
+		mylog.Trace("build archive %s list, posts %s", a.Year, len(a.Posts))
 	}
 	return nil
 }

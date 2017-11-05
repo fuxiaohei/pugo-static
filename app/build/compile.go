@@ -156,6 +156,18 @@ func prepareTasks(content *models.Content, sizeTitle string) ([]compileTask, err
 		}
 		tasks = append(tasks, task)
 	}
+	// prepare archives
+	task := compileTask{
+		TplFile:  "archive.html",
+		ToFile:   toDstFile("archive.html"),
+		FromFile: "archive",
+		TplData: map[string]interface{}{
+			"Archives": content.Archives,
+			"Slug":     "archive.html",
+			"Hover":    "archive",
+		},
+	}
+	tasks = append(tasks, task)
 	return tasks, nil
 }
 

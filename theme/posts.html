@@ -4,7 +4,7 @@
 <section id="main">
     <div class="container">
         <div id="article-list">{{if .Tag}}
-            <h2 class="tag text-center">{{.Tag.Name}}</h2>{{end}}{{range .Posts}}
+            <h2 class="tag text-center">{{.Tag}}</h2>{{end}}{{range .Posts}}
             <article class="article">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1 panel panel-default">

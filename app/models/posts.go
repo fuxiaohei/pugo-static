@@ -12,12 +12,12 @@ type PostList struct {
 }
 
 // NewPostLists build lists of posts with size
-func NewPostLists(posts []*Post, size int) []*PostList {
+func NewPostLists(posts []*Post, size int, tag string) []*PostList {
 	cursor := NewPagerCursor(size, len(posts))
 	var lists []*PostList
 	for _, pg := range cursor.Pages() {
 		list := &PostList{
-			Tag:   "",
+			Tag:   tag,
 			Pager: pg,
 			Posts: posts[pg.Begin:pg.End],
 		}
@@ -39,7 +39,7 @@ func NewPostTags(posts []*Post, size int) (map[string]string, map[string][]*Post
 	}
 	lists := make(map[string][]*PostList)
 	for tag, posts := range tmp {
-		lists[tag] = NewPostLists(posts, size)
+		lists[tag] = NewPostLists(posts, size, tag)
 	}
 	return m, lists
 }

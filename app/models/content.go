@@ -11,6 +11,7 @@ type Content struct {
 	Lists        []*PostList
 	Tags         map[string]string
 	PostTagLists map[string][]*PostList
+	Archives     []*Archive
 	Pages        []*Page
 	Theme        *theme.Theme
 	DstFiles     map[string]bool
