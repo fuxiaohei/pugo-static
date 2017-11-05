@@ -3,6 +3,7 @@ package build
 import (
 	"os"
 	"path/filepath"
+	"sort"
 
 	"github.com/fuxiaohei/pugo-static/app/models"
 	"github.com/fuxiaohei/pugo-static/app/theme"
@@ -62,6 +63,9 @@ func readPosts(cnt *models.Content) error {
 			mylog.Trace("read post file %s", fpath)
 		}
 		return nil
+	})
+	sort.Slice(posts, func(i, j int) bool {
+		return posts[i].Created().Unix() > posts[j].Created().Unix()
 	})
 	if err != nil {
 		return err

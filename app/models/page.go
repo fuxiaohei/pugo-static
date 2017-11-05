@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"html/template"
 	"io/ioutil"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/fuxiaohei/pugo-static/app/vars"
@@ -100,12 +102,13 @@ func (p *Page) ToFile() string {
 	if p.IsDraft {
 		return ""
 	}
-	return p.relPath
+	sfx := filepath.Ext(p.relPath)
+	return strings.TrimSuffix(p.relPath, sfx) + ".html"
 }
 
 // URL return visit link of the page
 func (p *Page) URL() string {
-	return p.relPath
+	return p.ToFile()
 }
 
 // SetAuthor set author object to the page

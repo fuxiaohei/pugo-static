@@ -1,6 +1,8 @@
 package models
 
-import "strings"
+import (
+	"strings"
+)
 
 // PostList is list of posts
 type PostList struct {

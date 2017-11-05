@@ -8,26 +8,26 @@ import (
 )
 
 // Build run build process
-func Build(isClean bool) {
+func Build(isClean bool) bool {
 	var (
 		content = models.NewContent()
 		st      = time.Now()
 	)
 	// read all contents and generate all cached temporary data
 	if !Read(content) {
-		return
+		return false
 	}
 	mylog.Trace("read all contents done, %s ms", time.Since(st).Nanoseconds()/1e6)
 	st = time.Now()
 
 	if !Compile(content) {
-		return
+		return false
 	}
 	mylog.Trace("compile all webpages done, %s ms", time.Since(st).Nanoseconds()/1e6)
 	st = time.Now()
 
 	if !Copy(content) {
-		return
+		return false
 	}
 	mylog.Trace("copy static files done, %s ms", time.Since(st).Nanoseconds()/1e6)
 	st = time.Now()
@@ -35,4 +35,5 @@ func Build(isClean bool) {
 		Clean(content)
 		mylog.Trace("clean destination directory, %s ms", time.Since(st).Nanoseconds()/1e6)
 	}
+	return true
 }

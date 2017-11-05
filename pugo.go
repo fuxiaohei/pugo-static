@@ -13,6 +13,7 @@ func main() {
 	app.Version = "1.0.0"
 	app.Commands = []cli.Command{
 		cmd.Build,
+		cmd.Server,
 	}
 	app.RunAndExitOnError()
 }

@@ -1,10 +1,13 @@
 package build
 
-import "github.com/fuxiaohei/pugo-static/app/models"
-import "path/filepath"
-import "github.com/fuxiaohei/pugo-static/app/vars"
-import "os"
-import "github.com/fuxiaohei/pugo-static/app/utils/mylog"
+import (
+	"os"
+	"path/filepath"
+
+	"github.com/fuxiaohei/pugo-static/app/models"
+	"github.com/fuxiaohei/pugo-static/app/utils/mylog"
+	"github.com/fuxiaohei/pugo-static/app/vars"
+)
 
 // Clean clean destination directry with not-compiling file
 func Clean(content *models.Content) {

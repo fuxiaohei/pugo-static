@@ -10,17 +10,14 @@
                         <header class="header">
                             <div class="meta">
                         <span class="date">
-                            <span class="month">{{printf "%d" .Page.Created.Month}}</span>
-                            <span class="day">{{.Page.Created.Day}}</span>
+                            <span class="month">{{printf "%20d" .Page.Created.Month}}</span>
+                            <span class="day">{{printf "%20d" .Page.Created.Day}}</span>
                         </span>
                             </div>
                             <h3 class="title">
                                 <a href="{{.Page.URL}}">{{.Page.Title}}</a>
                             </h3>
                         </header>
-                        {{if .Page.Author}}<aside class="aside clearfix">
-                            <a class="stat label label-default pull-right"{{if .Page.Author.URL}} href="{{.Page.Author.URL}}" target="_blank"{{end}}>{{.Page.Author.Name}}</a>
-                        </aside>{{end}}
                         <section class="brief">{{.Page.ContentHTML}}</section>
                     </div>
                 </div>

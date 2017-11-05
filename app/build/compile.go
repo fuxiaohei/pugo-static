@@ -71,6 +71,8 @@ func prepareTasks(content *models.Content, sizeTitle string) ([]compileTask, err
 	}
 	// prepare post lists
 	for _, postList := range content.Lists {
+		// fmt.Println("---", postList.Pager.Current)
+		postList.Pager.SetLayout("/posts/%d.html")
 		slug := fmt.Sprintf("/posts/%d.html", postList.Pager.Current)
 		task := compileTask{
 			FromFile: fmt.Sprintf("post-list-%d", postList.Pager.Current),
@@ -79,7 +81,7 @@ func prepareTasks(content *models.Content, sizeTitle string) ([]compileTask, err
 			TplData: map[string]interface{}{
 				"Pager": postList.Pager,
 				"Posts": postList.Posts,
-				"Title": fmt.Sprintf("Page %d - %s", postList.Pager.Current, sizeTitle),
+				"Title": fmt.Sprintf("第 %d 页 - %s", postList.Pager.Current, sizeTitle),
 				"Slug":  slug,
 			},
 		}
@@ -104,6 +106,7 @@ func prepareTasks(content *models.Content, sizeTitle string) ([]compileTask, err
 	// prepare post tag list
 	for tag, lists := range content.PostTagLists {
 		for _, list := range lists {
+			list.Pager.SetLayout("/tag/" + tag + "/%d.html")
 			slug := fmt.Sprintf("/tag/%s/%d.html", tag, list.Pager.Current)
 			task := compileTask{
 				TplFile: "posts.html",
@@ -111,11 +114,27 @@ func prepareTasks(content *models.Content, sizeTitle string) ([]compileTask, err
 				TplData: map[string]interface{}{
 					"Tag":   list.Tag,
 					"Posts": list.Posts,
-					"Title": fmt.Sprintf("Tag %s - Page %d - %s", tag, list.Pager.Current, sizeTitle),
+					"Title": fmt.Sprintf("标签 %s - 第 %d 页 - %s", tag, list.Pager.Current, sizeTitle),
 					"Slug":  slug,
+					"Pager": list.Pager,
 				},
 				FromFile: fmt.Sprintf("post-tag-%s-list-%d", tag, list.Pager.Current),
 			}
+			/*if list.Pager.Current == 1 {
+				slug := fmt.Sprintf("/tag/%s.html", tag)
+				task := compileTask{
+					TplFile: "posts.html",
+					ToFile:  toDstFile(slug),
+					TplData: map[string]interface{}{
+						"Tag":   list.Tag,
+						"Posts": list.Posts,
+						"Title": fmt.Sprintf("Tag %s - Page %d - %s", tag, list.Pager.Current, sizeTitle),
+						"Slug":  slug,
+					},
+					FromFile: fmt.Sprintf("post-tag-%s-list-%d", tag, list.Pager.Current),
+				}
+				tasks = append(tasks, task)
+			}*/
 			tasks = append(tasks, task)
 		}
 	}
@@ -143,21 +162,23 @@ func prepareTasks(content *models.Content, sizeTitle string) ([]compileTask, err
 type compileFunc func(tplFile string, tplData map[string]interface{}) ([]byte, error)
 
 func createBuildFunc(content *models.Content) compileFunc {
-	viewData := map[string]interface{}{
-		"Meta":      content.Meta.Meta,
-		"Nav":       content.Meta.Nav,
-		"Hover":     "",
-		"Now":       time.Now(),
-		"Version":   vars.Version,
-		"Title":     content.Meta.Meta.Title + " - " + content.Meta.Meta.Subtitle,
-		"Keyword":   content.Meta.Meta.Keyword,
-		"Desc":      content.Meta.Meta.Desc,
-		"Comment":   content.Meta.Comment,
-		"Analytics": content.Meta.Analytics,
-		"Base":      content.Meta.Meta.Base(),
-		"Slug":      "",
-	}
 	return func(tplFile string, tplData map[string]interface{}) ([]byte, error) {
+		viewData := map[string]interface{}{
+			"Meta":      content.Meta.Meta,
+			"Nav":       content.Meta.Nav,
+			"Hover":     "",
+			"Now":       time.Now(),
+			"Version":   vars.Version,
+			"Title":     content.Meta.Meta.Title,
+			"Subtitle":  content.Meta.Meta.Subtitle,
+			"Keyword":   content.Meta.Meta.Keyword,
+			"Desc":      content.Meta.Meta.Desc,
+			"Comment":   content.Meta.Comment,
+			"Analytics": content.Meta.Analytics,
+			"Base":      content.Meta.Meta.Base(),
+			"Slug":      "",
+			"Root":      content.Meta.Meta.Root,
+		}
 		for k, v := range tplData {
 			viewData[k] = v
 		}

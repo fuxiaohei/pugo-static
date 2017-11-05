@@ -1,11 +1,14 @@
 package build
 
-import "github.com/fuxiaohei/pugo-static/app/models"
-import "path/filepath"
-import "github.com/fuxiaohei/pugo-static/app/vars"
-import "os"
-import "github.com/fuxiaohei/pugo-static/app/utils/mylog"
-import "io"
+import (
+	"io"
+	"os"
+	"path/filepath"
+
+	"github.com/fuxiaohei/pugo-static/app/models"
+	"github.com/fuxiaohei/pugo-static/app/utils/mylog"
+	"github.com/fuxiaohei/pugo-static/app/vars"
+)
 
 // Copy copy static files
 func Copy(content *models.Content) bool {

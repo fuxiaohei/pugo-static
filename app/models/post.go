@@ -65,7 +65,7 @@ func NewPostFromFile(file string) (*Post, error) {
 		tag = strings.TrimSpace(tag)
 		post.tags[tag] = &PostTag{
 			Name: tag,
-			URL:  "/tag/" + tag + ".html",
+			URL:  "/tag/" + tag + "/1.html",
 		}
 	}
 	return post, post.formatFrontMeta()
